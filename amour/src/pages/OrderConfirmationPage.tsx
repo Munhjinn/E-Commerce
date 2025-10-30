@@ -4,6 +4,8 @@ import { RootState } from '../features/store';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageProvider';
 import { updateAddress } from '../features/authSlice';
+import { createOrder } from '../features/ordersSlice';
+import { clearCart } from '../features/cartSlice';
 
 const OrderConfirmationPage: React.FC = () => {
   const cart = useSelector((s: RootState) => s.cart.items);
@@ -32,6 +34,10 @@ const OrderConfirmationPage: React.FC = () => {
     setPaymentMethod(method);
     // In a real app you'd redirect to payment integration. Here, simulate success and clear cart.
     setTimeout(() => {
+      // create order in store
+      dispatch(createOrder({ items: cart, total, address, status: 'pending' }));
+      // clear cart
+      dispatch(clearCart());
       alert(`Payment completed via: ${method}`);
       navigate('/');
     }, 600);

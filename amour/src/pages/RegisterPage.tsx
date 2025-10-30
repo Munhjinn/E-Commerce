@@ -14,7 +14,7 @@ const RegisterPage: React.FC = () => {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Minimal client-side register: create user and log in
-    dispatch(register({ name: name || (email.split('@')[0] || 'User'), email, address }));
+    dispatch(register({ name: name || (email.split('@')[0] || 'User'), email, address, role: 'customer' }));
     navigate('/');
   };
 

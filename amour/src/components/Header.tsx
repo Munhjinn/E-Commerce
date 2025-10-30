@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   ShoppingCartIcon,
   MagnifyingGlassIcon as SearchIcon,
@@ -8,15 +8,9 @@ import {
 } from '@heroicons/react/24/outline';
 import CategoriesDropdown from './CategoriesDropdown';
 import { useLanguage } from '../context/LanguageProvider';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../features/store';
-import { logout } from '../features/authSlice';
 
 const Header: React.FC = () => {
   const { t, lang, toggleLang } = useLanguage();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const auth = useSelector((s: RootState) => s.auth);
 
   return (
     <header className="bg-[#FF6E00] text-white">
@@ -63,26 +57,10 @@ const Header: React.FC = () => {
               {lang === 'en' ? 'EN' : 'MN'}
             </button>
 
-            {auth?.isLoggedIn ? (
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => navigate('/account')}
-                  className="flex items-center gap-2 hover:text-yellow-300"
-                >
-                  <UserIcon className="h-5 w-5" />
-                  <span className="hidden md:inline text-sm">{auth.user?.name || t('account')}</span>
-                </button>
-                
-              </div>
-            ) : (
-              <button
-                onClick={() => navigate('/login')}
-                className="flex items-center gap-2 hover:text-yellow-300"
-              >
-                <UserIcon className="h-5 w-5" />
-              </button>
-            )}
-
+            <Link to="/account" className="flex items-center gap-2 hover:text-yellow-300">
+              <UserIcon className="h-5 w-5" />
+              <span className="hidden md:inline text-sm">{t('account')}</span>
+            </Link>
 
             <Link to="/notifications" className="relative hover:text-yellow-300">
               <BellIcon className="h-5 w-5" />
@@ -91,14 +69,14 @@ const Header: React.FC = () => {
             <Link to="/cart" className="relative flex items-center gap-2 hover:text-yellow-300">
               <ShoppingCartIcon className="h-5 w-5" />
               <span className="hidden md:inline text-sm">{t('cart')}</span>
-
+           
             </Link>
           </div>
         </div>
       </div>
 
       {/* Secondary nav strip */}
-      <div className="bg-[#1f2022] text-white text-sm">
+      <div className="bg-[#1f2022] text-white text-sm">  
         <div className="max-w-7xl mx-auto px-4">
           <nav className="flex items-center gap-4 overflow-x-auto h-10">
             <a className="px-3 py-1 hover:underline cursor-pointer">All </a>

@@ -11,6 +11,7 @@ import ProductDetailsPage from './pages/ProductDetailsPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import OrderConfirmationPage from './pages/OrderConfirmationPage';
+import DeliveryPage from './pages/DeliveryPage';
 import LanguageProvider from './context/LanguageProvider';
 
 
@@ -32,12 +33,15 @@ const Footer: React.FC = () => {
   );
 };
 
+// Note: DeliveryPage now contains its own header. App renders the normal Header for all routes.
+
 function App() {
   return (
     <Provider store={store}>
       <Router>
         <LanguageProvider>
           <div className="min-h-screen bg-gray-100">
+            {/* global header (DeliveryPage renders its own header) */}
             <Header />
             <Routes>
               <Route path="/" element={<HomePage />} />
@@ -46,6 +50,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/checkout" element={<OrderConfirmationPage />} />
+              <Route path="/deliveries" element={<DeliveryPage />} />
               <Route path="/category/:name" element={<CategoryPage />} />
               <Route path="/product/:id" element={<ProductDetailsPage />} />
             </Routes>

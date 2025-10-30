@@ -13,8 +13,15 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     // NOTE: In a real app you'd call an API. Here we accept any credentials.
     const name = email ? email.split('@')[0] : 'User';
-    dispatch(login({ name, email }));
-    navigate('/'); // redirect to homepage after login
+    // If this is the delivery partner account, log in as delivery and go to deliveries page
+    if (email.trim().toLowerCase() === 'delivery@gmail.com' && password === 'delivery') {
+      dispatch(login({ name, email, role: 'delivery' }));
+      navigate('/deliveries');
+    } else {
+      // normal customer
+      dispatch(login({ name, email, role: 'customer' }));
+      navigate('/'); // redirect to homepage after login
+    }
   };
 
   return (
