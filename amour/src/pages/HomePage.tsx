@@ -43,7 +43,6 @@ const HomePage: React.FC = () => {
       {/* Hero / categories band (full width yellow background) */}
       <section className="w-full bg-gradient-to-b from-[#F59E0B] via-[#F97316] to-[#EA580C] py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-6xl font-extrabold text-gray-800 mb-6 tracking-tight">AMOUR</h1>
 
           {/* rounded inner panel for hero */}
           <div className="bg-white rounded-2xl p-6 shadow-inner">

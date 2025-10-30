@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../features/store';
 import { removeFromCart, updateQuantity } from '../features/cartSlice';
 import { useLanguage } from '../context/LanguageProvider';
+import { useNavigate } from 'react-router-dom';
+
+// Guard checkout: if user not logged in, redirect to /login; otherwise go to /checkout
 
 const CartPage: React.FC = () => {
   const cart = useSelector((s: RootState) => s.cart.items);
@@ -10,6 +13,8 @@ const CartPage: React.FC = () => {
   const { t } = useLanguage();
 
   const total = cart.reduce((s, it) => s + it.price * it.quantity, 0);
+  const navigate = useNavigate();
+  const auth = useSelector((s: RootState) => s.auth);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -47,7 +52,18 @@ const CartPage: React.FC = () => {
 
             <div className="mt-6 text-right">
               <div className="text-lg font-semibold">Total: ${total.toFixed(2)}</div>
-              <button className="btn-primary mt-3">Proceed to Checkout</button>
+              <button
+                className="btn-primary mt-3"
+                onClick={() => {
+                  if (!auth?.isLoggedIn) {
+                    navigate('/login');
+                  } else {
+                    navigate('/checkout');
+                  }
+                }}
+              >
+                Proceed to Checkout
+              </button>
             </div>
           </div>
         )}

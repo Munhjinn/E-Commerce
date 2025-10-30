@@ -8,6 +8,9 @@ import AccountPage from './pages/AccountPage';
 import CartPage from './pages/CartPage';
 import CategoryPage from './pages/CategoryPage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import OrderConfirmationPage from './pages/OrderConfirmationPage';
 import LanguageProvider from './context/LanguageProvider';
 
 
@@ -40,6 +43,9 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/account" element={<AccountPage />} />
               <Route path="/cart" element={<CartPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/checkout" element={<OrderConfirmationPage />} />
               <Route path="/category/:name" element={<CategoryPage />} />
               <Route path="/product/:id" element={<ProductDetailsPage />} />
             </Routes>

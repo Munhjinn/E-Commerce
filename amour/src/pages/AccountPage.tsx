@@ -1,8 +1,21 @@
-import React, { useState } from "react";
-import { UserIcon, EnvelopeIcon, HomeIcon, PencilIcon } from "@heroicons/react/24/outline";
-import OrangeWrapper from '../components/OrangeWrapper';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../features/authSlice";
+import { RootState } from "../features/store";
+import { useNavigate } from "react-router-dom";
+import {
+  UserIcon,
+  EnvelopeIcon,
+  HomeIcon,
+  PencilIcon,
+} from "@heroicons/react/24/outline";
+import OrangeWrapper from "../components/OrangeWrapper";
 
 const AccountPage: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const auth = useSelector((state: RootState) => state.auth);
+
   const [name, setName] = useState("John Doe");
   const [email, setEmail] = useState("john.doe@example.com");
   const [address, setAddress] = useState("123 Main Street, Ulaanbaatar");
@@ -11,17 +24,35 @@ const AccountPage: React.FC = () => {
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
 
+  // 🧩 Хэрэглэгч гарах үед Login руу шилжүүлэх
+  useEffect(() => {
+    if (!auth.isLoggedIn) {
+      navigate("/login");
+    }
+  }, [auth.isLoggedIn, navigate]);
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">My Account</h1>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold text-gray-800">My Account</h1>
+        <button
+          onClick={() => dispatch(logout())}
+          className="text-sm font-medium text-red-500 underline hover:text-red-600"
+        >
+          Logout
+        </button>
+      </div>
 
       <OrangeWrapper>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold text-gray-700 mb-4">Profile Information</h2>
+        <div className="bg-white rounded-lg shadow-md p-6 space-y-10">
+          {/* Profile Info */}
+          <section>
+            <h2 className="text-xl font-semibold text-gray-700 mb-4">
+              Profile Information
+            </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="column column-cols-1 md:grid-cols-2 gap-8">
               {/* Name */}
               <div>
                 <label className="block text-gray-600 mb-2">Name</label>
@@ -77,9 +108,9 @@ const AccountPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-                    </div>
+
               {/* Address */}
-              <div>
+              <div className="md:col-span-2">
                 <label className="block text-gray-600 mb-2">Address</label>
                 <div className="flex items-center border rounded-lg px-4 py-2">
                   <HomeIcon className="h-6 w-6 text-yellow-500 mr-3" />
@@ -105,45 +136,63 @@ const AccountPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-                
             </div>
+          </section>
 
-            
-              {/* Order History Section */}
-                        <div>
-                          <h2 className="text-xl font-semibold text-gray-700 mb-4">Order History</h2>
-                          <div className="overflow-x-auto">
-                            <table className="min-w-full">
-                              <thead>
-                                <tr className="bg-gray-50">
-                                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Order Number</th>
-                                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ordered Date</th>
-                                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Delivered Date</th>
-                                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
-                                </tr>
-                              </thead>
-                              <tbody className="divide-y divide-gray-200">
-                                <tr>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1</td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2025-10-13</td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2025-10-15</td>
-                                  <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                      Delivered
-                                    </span>
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$99.99</td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
+          {/* Order History */}
+          <section>
+            <h2 className="text-xl font-semibold text-gray-700 mb-4">
+              Order History
+            </h2>
+            <div className="overflow-x-auto">
+              <table className="min-w-full border border-gray-200 rounded-md">
+                <thead>
+                  <tr className="bg-gray-50">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Order Number
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Ordered Date
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Delivered Date
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Total
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  <tr>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      1
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      2025-10-13
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      2025-10-15
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        Delivered
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      $99.99
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </div>
-        </OrangeWrapper>
-      </div>
-    );
+          </section>
+        </div>
+      </OrangeWrapper>
+    </div>
+  );
 };
 
 export default AccountPage;
