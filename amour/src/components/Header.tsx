@@ -81,7 +81,7 @@ const Header: React.FC = () => {
       <div className="bg-[#1f2022] text-white text-sm">  
         <div className="max-w-7xl mx-auto px-4">
           <nav className="flex items-center gap-4 overflow-x-auto h-10">
-            <a className="px-3 py-1 hover:underline cursor-pointer">All</a>
+            <a className="px-3 py-1 hover:underline cursor-pointer">All of product</a>
             <a className="px-3 py-1 hover:underline cursor-pointer">Amazon Deals</a>
             <a className="px-3 py-1 hover:underline cursor-pointer">Medical Care</a>
             <a className="px-3 py-1 hover:underline cursor-pointer">Luxury</a>
